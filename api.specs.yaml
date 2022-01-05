@@ -1,0 +1,196 @@
+openapi: 3.0.0
+
+info:
+  version: 1.0.0
+  title: Stock Trades API
+
+paths:
+  /trades:
+    delete:
+      summary: Removes all Trades
+      description: |
+        Delete all stored Trades
+      responses:
+        '200':
+          description: Trades remove successfully
+
+    post:
+      summary: Add a new Trade to the service
+      description: |
+        This endpoint allows the client to create a new Trade
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Trade'
+      responses:
+        '201':
+          description: Trade has been storaged correctly
+        '400':
+          description: There is alreay a Trade with that Id
+
+    get:
+      summary: Returns all Trades
+      description: |
+        This endpoint returns all stored Trades in ascending order by Trade Id
+      responses:
+        '200':
+          description: Trades in ascending order by Trade Id
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Trade'
+
+  /trades/users/{userId}:
+    get:
+      summary: Get all Trades by a given User Id
+      description: |
+        This endpoint returns all stored Trades associated by the given User Id
+      parameters:
+        - in: path
+          name: userId
+          required: true
+          schema:
+            type: integer
+      responses:
+        '200':
+          description: |
+            Trades for the given User Id, in ascending order by Trade Id
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Trade'
+
+        '404':
+          description: |
+            Trades for the given user not found
+
+  /stocks/{stockSymbol}/price:
+    get:
+      summary: Get the highest, and the lowest price, for the stock symbol in the given date range.
+      parameters:
+        - in: path
+          name: stockSymbol
+          required: true
+          schema:
+            type: string
+        - in: query
+          name: start
+          schema:
+            type: string
+            format: date
+          required: true
+        - in: query
+          name: end
+          schema:
+            type: string
+            format: date
+          required: true
+      responses:
+        '200':
+          description: |
+            Highest and lowest price for the given Stock symbol in the date range
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  highest:
+                    type: number
+                    example: 144.01
+                  lowest:
+                    type: number
+                    example: 139.96
+                  symbol:
+                    type: string
+                    example: 'ACC'
+
+        '204':
+          description: |
+            There are no trades for the given Stock Symbol in the specified date range
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: "There are no trades in the given date range"
+
+        '404':
+          description: |
+            If there are no trades for the given stock symbol or between the data range
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: 'There are no trades in the given date range'
+
+components:
+  schemas:
+    Trade:
+      properties:
+        id:
+          description: The unique ID of the trade.
+          type: integer
+          example: 1
+        type:
+          description: The Trade type
+          type: string
+          enum: ['buy', 'sell']
+          example: buy
+        user:
+          type: object
+          properties:
+            id:
+              description: |
+                ID of the user
+              type: integer
+              example: 1
+            name:
+              description: |
+                Name of the user
+              example: 'John'
+          required:
+            - id
+            - name
+        symbol:
+          description: The Stock symbol
+          type: string
+          example: 'ACC'
+        shares:
+          description: The total number of shares traded
+          type: integer
+          minimum: 10
+          maximum: 30
+          example: 15
+        price:
+          description: The price of one share of stock at the time of the trade
+          type: number
+          minimum: 130.42
+          maximum: 195.65
+          example: 145.31
+        timestamp:
+          description: |
+            The timestamp for the trade creation
+          type: string
+          format: date
+          pattern: 'yyyy-MM-dd HH:mm:ss'
+          example: '2020-12-12 10:00:00'
+
+      required:
+        - id
+        - type
+        - user
+        - symbol
+        - shares
+        - price
+        - timestamp

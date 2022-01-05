@@ -1,0 +1,5 @@
+--reporter mocha-multi-reporters
+--reporter-options configFile=config.json
+--require ts-node/register
+--require @babel/register
+-- recursive
