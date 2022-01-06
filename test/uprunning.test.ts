@@ -16,3 +16,8 @@ describe('Up&Running', function() {
 			});
 	})
 });
+
+module.exports = {
+	chai,chaiHttp,server,expect
+}
+

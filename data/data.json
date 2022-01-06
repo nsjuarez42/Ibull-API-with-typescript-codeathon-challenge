@@ -1,0 +1,31 @@
+{
+  "trades": [
+    {
+      "id": 1,
+      "type": "buy",
+      "user": { "id": 1, "name": "nico" },
+      "symbol": "ACC",
+      "shares": 20,
+      "price": 32.4,
+      "timestamp": "2017-10-30*02:47:33:899"
+    },
+    {
+      "id": 2,
+      "type": "buy",
+      "user": { "id": 1, "name": "nico" },
+      "symbol": "ACC",
+      "shares": 12,
+      "price": 28.4,
+      "timestamp": "2010-10-30*02:47:33:899"
+    },
+    {
+      "id": 3,
+      "type": "buy",
+      "user": { "id": 1, "name": "nico" },
+      "symbol": "ACC",
+      "shares": 15,
+      "price": 30.4,
+      "timestamp": "2012-10-30*02:47:33:899"
+    }
+  ]
+}
