@@ -1,15 +1,11 @@
 import type {Trade} from '../types/types'
 const {chai,server,expect,chaiHttp} = require("./uprunning.test")
 /*
-TODO:
-Trades
 
-type checks in response
 
 post
 no trade in body
 
-erase
 */
 
 
@@ -104,5 +100,14 @@ describe("Post trades",function(){
             expect(response).to.have.status(400)
             done()
         })
+    })
+
+    it("should return status 400 if the trade is not sent in body",(done)=>{
+        chai.request(server)
+            .post("/trades")
+            .end((err:any,response:any)=>{
+                expect(response).to.have.status(400)
+                done()
+            })
     })
 })

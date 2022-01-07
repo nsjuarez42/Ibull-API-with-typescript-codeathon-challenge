@@ -6,10 +6,6 @@ import type {Trade} from '../types/types'
 let express = require('express');
 let router = express.Router();
 
-/*TODO:
-check timestamp validity
-*/
-
 const MINIMUM_PRICE = 130.42
 
 const MAXIMUM_PRICE =195.65

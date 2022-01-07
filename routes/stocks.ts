@@ -7,17 +7,12 @@ var router = express.Router();
 
 
 // Routes related to stocks
-/*
-TODO:
-deal with wrong date format or no date
-
-*/
 
 router.get("/:symbol/price",(req:Request,res:Response)=>{
 
 try {
     if(!req.params.symbol || !req.query.start || !req.query.end){
-     
+     res.status(400).send({description:"malformed expected data"})
      throw new Error("malformed expected data")
     }
 
@@ -27,9 +22,6 @@ try {
     if(typeof start == "string" && typeof end == "string"){
         const startDate : Date  = new Date(start)
         const endDate :Date = new Date(end)
-
-
-        console.log(startDate,endDate)
 
         const db = new Database()
         
